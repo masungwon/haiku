@@ -11,19 +11,15 @@ function createHaiku(structure, syllablesArr) {
   }).join('\n');
 }
 
-//create Syllables Array
-//so each number in the cmudict is a syllable
-
-
 function readCmudictFile(file){
   return fs.readFileSync(file).toString();
 }
 
 //turn cmudict into Syllables Array
 function formatData(data){
-  var lines = data.toString().split("\n"),
-      lineSplit,
-      syllablesArr = [ [], [], [], [], [], [], [], [] ];
+  var lines = data.toString().split("\n");
+  var lineSplit;
+  var syllablesArr = [ [] ];
   lines.forEach(function(line) {
     lineSplit = line.split(" ");
 
@@ -38,6 +34,9 @@ function formatData(data){
       }
     }
     var syl = numStr.length;
+    if(syllablesArr[syl] == undefined) {
+      syllablesArr[syl] = [];
+    }
     syllablesArr[syl].push(lineSplit[0]);
     console.log("syllablesArr is " + syllablesArr);
     return syllablesArr;
