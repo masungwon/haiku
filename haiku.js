@@ -1,10 +1,24 @@
 var fs = require('fs');
 var cmudictFile = fs.readFileSync('./cmudict.txt');
 
+/*
 function createHaiku(structure, syllablesArr) {
   var arrOfWords;
   return structure.map(function(lines){
     return lines.map(function(syls){
+      arrOfWords = syllablesArr[syls];
+      return arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
+    }).join(' ');
+  }).join('\n');
+}
+*/
+
+function createHaiku(structure, syllablesArr) {
+  var arrOfWords;
+  return structure.map(function(lines){
+    console.log("lines is " + lines);
+    return lines.map(function(syls){
+      console.log("syls is " + syls);
       arrOfWords = syllablesArr[syls];
       return arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
     }).join(' ');
@@ -22,11 +36,6 @@ function formatData(data){
   var syllablesArr = [ [] ];
   lines.forEach(function(line) {
     lineSplit = line.split(" ");
-
-  //  console.log("line is " + line); // line is ACHIEVE  AH0 CH IY1 V
-  //  console.log("lineSplit is " + lineSplit); // lineSplit is ACHIEVE,,AH0,CH,IY1,V
-  //  console.log("lineSplit[0] is " + lineSplit[0]); // lineSplit[0] is ACHIEVE
-  //  console.log("lineSplit[1] is " + lineSplit[1]); // lineSplit[1] is
     var numStr = "";
     for (var i = 2; i<lineSplit.length; i++) {
       if (lineSplit[i].match(/\d/) != null) {
@@ -38,12 +47,15 @@ function formatData(data){
       syllablesArr[syl] = [];
     }
     syllablesArr[syl].push(lineSplit[0]);
-    console.log("syllablesArr is " + syllablesArr);
-    return syllablesArr;
   });
+  return syllablesArr;
 }
 
 formatData(cmudictFile);
+
+var sylsArr = formatData(cmudictFile);
+
+console.log(createHaiku([[5],[7],[5]], sylsArr));
 
 module.exports = {
   createHaiku: createHaiku
